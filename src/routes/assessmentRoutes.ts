@@ -3,7 +3,6 @@ import { Assessment } from "../models/Assessment";
 
 const router = Router();
 
-// CREATE
 router.post("/", async (req, res) => {
   try {
     const assessment = new Assessment(req.body);
@@ -14,7 +13,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// READ (all)
 router.get("/", async (_req, res) => {
   const assessments = await Assessment.find();
   res.json(assessments);

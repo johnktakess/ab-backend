@@ -16,6 +16,7 @@ import { apiLimiter } from './middleware/rateLimiter';
 import assessmentRoutes from "./routes/assessmentRoutes";
 import industryRoutes from "./routes/industryRoutes";
 import countryRoutes from "./routes/countryRoutes";
+import assessmentTypesRoute from "./routes/assessmentTypeRoutes"
 
 const app = express();
 app.use(cors());
@@ -60,7 +61,8 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/assessments", assessmentRoutes);
 app.use("/api/industry", industryRoutes);
-app.use("/api/country", countryRoutes)
+app.use("/api/country", countryRoutes);
+app.use("/api/assessment_types", assessmentTypesRoute)
 
 /*app.get("/api/collections", async (req, res) => {
   try {
