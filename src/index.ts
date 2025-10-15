@@ -4,7 +4,6 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 
-//import morgan from 'morgan';
 const mongoose = require("mongoose");
 import connectDB from './config/db';
 import authRoutes from './routes/auth';
@@ -17,12 +16,14 @@ import assessmentRoutes from "./routes/assessmentRoutes";
 import industryRoutes from "./routes/industryRoutes";
 import countryRoutes from "./routes/countryRoutes";
 import assessmentTypesRoute from "./routes/assessmentTypeRoutes"
+import feedbackMasterRoutes from "./routes/feedbackMasterRoutes";
+import employeeMasterFieldRoutes from "./routes/employeeMasterFieldRoutes";
+import employeeMasterFieldGroupRoutes from "./routes/employeeMasterFieldGroupRoutes";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-//Audit Log
 app.use(auditLogger);
 
 //Rate Limiting
@@ -33,7 +34,6 @@ app.use(auditLogger);
 
 const PORT = process.env.PORT || 5000;
 
-
 connectDB()
 .then(() => console.log('✅ MongoDB connected'))
 .catch(err => {
@@ -41,7 +41,8 @@ connectDB()
   process.exit(1);
 });
 
-/*app.get("/api/users", async (req, res) => {
+/*
+app.get("/api/users", async (req, res) => {
   const users = await User.find();
   res.json(users);
 });
@@ -63,6 +64,9 @@ app.use("/api/assessments", assessmentRoutes);
 app.use("/api/industry", industryRoutes);
 app.use("/api/country", countryRoutes);
 app.use("/api/assessment_types", assessmentTypesRoute)
+app.use("/api/feedback_master", feedbackMasterRoutes);
+app.use("/api/employee_master_fields", employeeMasterFieldRoutes);
+app.use("/api/employee_master_field_groups", employeeMasterFieldGroupRoutes);
 
 /*app.get("/api/collections", async (req, res) => {
   try {

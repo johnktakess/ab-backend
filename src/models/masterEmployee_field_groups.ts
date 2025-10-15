@@ -1,32 +1,42 @@
 import { Schema, model, Document } from "mongoose";
 
-interface IRule {
+export interface IRule {
   ruleName: string;
-  condition: string;
-  values: string;
+  condition: string; // e.g., "equals", "range", etc.
+  values: string[];  // Array of allowed values or range
 }
 
 export interface IEmployeeFieldGroup extends Document {
-  fieldId: string;
+  fieldId: string; // Reference to EmployeeField
   groupName: string;
   groupDescription: string;
-  rules: IRule[];
+  rules: IRule;
+  status: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const ruleSchema = new Schema<IRule>({
-  ruleName: { type: String },
-  condition: { type: String },
-  values: { type: String },
-});
+const ruleSchema = new Schema<IRule>(
+  {
+    ruleName: { type: String, required: true },
+    condition: { type: String, required: true },
+    values: { type: [String], default: [] },
+  },
+  { _id: false }
+);
 
 const employeeFieldGroupSchema = new Schema<IEmployeeFieldGroup>(
   {
     fieldId: { type: String, required: true },
     groupName: { type: String, required: true },
-    groupDescription: { type: String },
-    rules: { type: [ruleSchema], default: [] },
+    groupDescription: { type: String, default: "" },
+    rules: { type: ruleSchema, required: true },
+    status: { type: Number, default: 1 },
   },
-  { collection: "ab_master_employee_field_groups" }
+  {
+    timestamps: true,
+    collection: "ab_master_employee_field_groups",
+  }
 );
 
 export const EmployeeFieldGroup = model<IEmployeeFieldGroup>(
