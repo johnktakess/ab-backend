@@ -6,13 +6,14 @@ import {
   updateEmployeeField,
   deleteEmployeeField,
 } from "../controllers/employeeMasterFieldController";
+import { authenticateAccessToken } from "../middleware/auth"
 
 const router = Router();
 
-router.post("/", createEmployeeField);
-router.get("/", getAllEmployeeFields);
-router.get("/:id", getEmployeeFieldById);
-router.put("/:id", updateEmployeeField);
-router.delete("/:id", deleteEmployeeField);
+router.post("/", authenticateAccessToken, createEmployeeField);
+router.get("/", authenticateAccessToken, getAllEmployeeFields);
+router.get("/:id", authenticateAccessToken, getEmployeeFieldById);
+router.put("/:id", authenticateAccessToken, updateEmployeeField);
+router.delete("/:id", authenticateAccessToken, deleteEmployeeField);
 
 export default router;
