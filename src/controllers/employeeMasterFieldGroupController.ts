@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { EmployeeFieldGroup } from "../models/masterEmployee_field_groups";
 
-// 📘 Create a new Employee Field Group
 export const createEmployeeFieldGroup = async (req: Request, res: Response): Promise<void> => {
   try {
     const { fieldId, groupName, groupDescription, rules } = req.body;
@@ -24,7 +23,6 @@ export const createEmployeeFieldGroup = async (req: Request, res: Response): Pro
   }
 };
 
-// 📘 Get all Employee Field Groups
 export const getAllEmployeeFieldGroups = async (req: Request, res: Response): Promise<void> => {
   try {
     const groups = await EmployeeFieldGroup.find().sort({ createdAt: -1 });
@@ -38,7 +36,6 @@ export const getAllEmployeeFieldGroups = async (req: Request, res: Response): Pr
   }
 };
 
-// 📘 Get a single Employee Field Group by ID
 export const getEmployeeFieldGroupById = async (req: Request, res: Response): Promise<void> => {
   try {
     const group = await EmployeeFieldGroup.findById(req.params.id);
@@ -52,7 +49,6 @@ export const getEmployeeFieldGroupById = async (req: Request, res: Response): Pr
   }
 };
 
-// 📘 Update an Employee Field Group
 export const updateEmployeeFieldGroup = async (req: Request, res: Response): Promise<void> => {
   try {
     const updatedGroup = await EmployeeFieldGroup.findByIdAndUpdate(
@@ -76,7 +72,6 @@ export const updateEmployeeFieldGroup = async (req: Request, res: Response): Pro
   }
 };
 
-// 📘 Delete an Employee Field Group
 export const deleteEmployeeFieldGroup = async (req: Request, res: Response): Promise<void> => {
   try {
     const deletedGroup = await EmployeeFieldGroup.findByIdAndDelete(req.params.id);
