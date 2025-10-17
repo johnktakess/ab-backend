@@ -8,7 +8,7 @@ export interface IAssessmentEmployeeFieldGroup extends Document {
   rules: {
     ruleName: string;
     condition: string;
-    values: string;
+    values: { type: [String], default: [] };
   };
   status: number;
   createdAt: Date;
@@ -24,7 +24,7 @@ const assessmentEmployeeFieldGroupSchema = new Schema<IAssessmentEmployeeFieldGr
     rules: {
       ruleName: { type: String, required: true },
       condition: { type: String, required: true },
-      values: { type: String, required: true },
+      values: { type: [String], default: [] },
     },
     status: { type: Number, default: 1 },
   },

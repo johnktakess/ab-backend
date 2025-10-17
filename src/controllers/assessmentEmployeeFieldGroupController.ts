@@ -1,5 +1,54 @@
 import { Request, Response } from "express";
 import { AssessmentEmployeeFieldGroup } from "../models/assessmentEmployee_field_group";
+import { EmployeeFieldGroup } from "../models/masterEmployee_field_groups"; // Master data model
+
+
+export const cloneMasterEmployeeFieldGroupsToAssessment = async (req: Request, res: Response) => {
+  try {
+    const { assessmentId } = req.body;
+
+    if (!assessmentId) {
+      return res.status(400).json({
+        success: false,
+        message: "assessmentId is required",
+      });
+    }
+
+    const masterGroups = await EmployeeFieldGroup.find();
+
+    if (!masterGroups.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No master employee field groups found",
+      });
+    }
+
+    const assessmentGroups = masterGroups.map((group) => ({
+      fieldId: group.fieldId,
+      assessmentId: assessmentId,
+      groupName: group.groupName,
+      groupDescription: group.groupDescription,
+      rules: group.rules,
+      status: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    const insertedGroups = await AssessmentEmployeeFieldGroup.insertMany(assessmentGroups);
+
+    res.status(201).json({
+      success: true,
+      message: "Master employee field groups successfully copied to assessment",
+      count: insertedGroups.length,
+      data: insertedGroups,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
 
 
 export const createAssessmentEmployeeFieldGroup = async (req: Request, res: Response) => {
