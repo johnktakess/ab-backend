@@ -17,11 +17,16 @@ export const createEmployeeField = async (req: Request, res: Response) => {
 
     const newField = new EmployeeField({
       fieldId,
+      metaId: req.body.metaId,
       metaName: req.body.metaName,
       metaType: req.body.metaType,
+      columnName: req.body.metaName,
       isChecked: req.body.isChecked ?? false,
       options: req.body.options || [],
       isGroup: req.body.isGroup ?? false,
+      isRequired: req.body.isRequired ?? true,
+      requireDisable: req.body.requireDisable ?? false,
+      isCustom: req.body.isCustom ?? false,
       status: req.body.status ?? 1,
     });
 
