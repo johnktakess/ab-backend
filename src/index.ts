@@ -20,6 +20,7 @@ import feedbackMasterRoutes from "./routes/feedbackMasterRoutes";
 import employeeMasterFieldRoutes from "./routes/employeeMasterFieldRoutes";
 import employeeMasterFieldGroupRoutes from "./routes/employeeMasterFieldGroupRoutes";
 import employeeFieldGroupRoutes from "./routes/assessmentEmployeeFieldGroupRoutes";
+import employeeFieldRoutes from "./routes/assessmentEMployeeFieldsRoutes"
 
 const app = express();
 app.use(cors());
@@ -69,6 +70,7 @@ app.use("/api/feedback_master", feedbackMasterRoutes);
 app.use("/api/employee_master_fields", employeeMasterFieldRoutes);
 app.use("/api/employee_master_field_groups", employeeMasterFieldGroupRoutes);
 app.use("/api/employee_field_groups", employeeFieldGroupRoutes);
+app.use("/api/employee_fields", employeeFieldGroupRoutes)
 
 /*app.get("/api/collections", async (req, res) => {
   try {

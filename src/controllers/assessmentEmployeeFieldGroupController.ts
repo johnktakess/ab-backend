@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { AssessmentEmployeeFieldGroup } from "../models/assessmentEmployee_field_group";
 import { EmployeeFieldGroup } from "../models/masterEmployee_field_groups"; // Master data model
 
-
 export const cloneMasterEmployeeFieldGroupsToAssessment = async (req: Request, res: Response) => {
   try {
     const { assessmentId } = req.body;
@@ -49,7 +48,6 @@ export const cloneMasterEmployeeFieldGroupsToAssessment = async (req: Request, r
     });
   }
 };
-
 
 export const createAssessmentEmployeeFieldGroup = async (req: Request, res: Response) => {
   try {
