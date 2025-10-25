@@ -13,7 +13,7 @@ const router = express.Router();
 router.post("/save", insertEmployeeFieldsIntoAssessment);
 router.post("/", appendAssessmentFields);
 router.get("/", getAssessmentFieldsWithGroups);
-router.get("/:id", getSpecificFieldWithGroups);
+router.get("/fields", getSpecificFieldWithGroups);
 router.delete("/:id", deleteAssessmentField);
 
 export default router;

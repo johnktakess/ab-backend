@@ -144,7 +144,7 @@ export const appendAssessmentFields = async (req: Request, res: Response) => {
 
 export const getAssessmentFieldsWithGroups = async (req: Request, res: Response) => {
   try {
-    const { assessmentId } = req.params;
+    const { assessmentId } = req.body;
 
     if (!assessmentId) {
       return res.status(400).json({
@@ -202,8 +202,7 @@ export const getAssessmentFieldsWithGroups = async (req: Request, res: Response)
 
 export const getSpecificFieldWithGroups = async (req: Request, res: Response) => {
   try {
-    const { assessmentId } = req.params;
-    const { fieldId } = req.body;
+    const { fieldId, assessmentId } = req.body;
 
     if (!assessmentId || !fieldId) {
       return res.status(400).json({
@@ -254,10 +253,10 @@ export const getSpecificFieldWithGroups = async (req: Request, res: Response) =>
   }
 };
 
+
 export const deleteAssessmentField = async (req: Request, res: Response) => {
   try {
-    const { assessmentId } = req.params;
-    const { fieldId } = req.body;
+    const { fieldId, assessmentId } = req.body;
 
     if (!assessmentId) {
       return res.status(400).json({
@@ -273,34 +272,36 @@ export const deleteAssessmentField = async (req: Request, res: Response) => {
       });
     }
 
-    // Find the assessment
     const assessment = await Assessment.findOne({ assessmentId });
     if (!assessment) {
       return res.status(404).json({
         success: false,
-        message: `Assessment with assessmentId ${assessmentId} not found`,
+        message: `Assessment with ID ${assessmentId} not found`,
       });
     }
 
-    // Filter out the specific field
-    const updatedFields = assessment.fields.filter(
-      (field) => field.fieldId !== fieldId
+    const fieldExists = assessment.fields.some(
+      (field: any) => field.fieldId === fieldId
     );
 
-    if (updatedFields.length === assessment.fields.length) {
+    if (!fieldExists) {
       return res.status(404).json({
         success: false,
-        message: `Field with fieldId ${fieldId} not found in this assessment`,
+        message: `Field with ID ${fieldId} not found in this assessment`,
       });
     }
 
-    // Update and save
-    assessment.fields = updatedFields;
+    assessment.fields = assessment.fields.filter(
+      (field: any) => field.fieldId !== fieldId
+    );
+
     await assessment.save();
+
+    await AssessmentEmployeeFieldGroup.deleteMany({ fieldId, assessmentId });
 
     res.status(200).json({
       success: true,
-      message: `Field ${fieldId} removed successfully from assessment ${assessmentId}`,
+      message: `Field ${fieldId} and related field group data deleted successfully`,
       data: assessment,
     });
   } catch (error: any) {
