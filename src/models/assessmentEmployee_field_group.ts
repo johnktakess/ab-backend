@@ -8,7 +8,7 @@ export interface IAssessmentEmployeeFieldGroup extends Document {
   rules: {
     ruleName: string;
     condition: string;
-    values: { type: [String], default: [] };
+    values: string[];
   };
   status: number;
   createdAt: Date;
